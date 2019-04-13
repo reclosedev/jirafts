@@ -5,11 +5,11 @@ from setuptools import setup, find_packages
 here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = [
-    "html2text==2018.1.9",
-    "requests==2.0.0",
-    "Whoosh==2.7.4",
-    "xmltodict==0.12.0",
-    "peewee==3.9.3",
+    "html2text>=2018.1.9",
+    "requests>=2.21.0",
+    "Whoosh>=2.7.4",
+    "xmltodict>=0.12.0",
+    "peewee>=3.9.3",
 ]
 
 
