@@ -1,0 +1,6 @@
+html2text==2018.1.9
+requests==2.21.0
+requests-cache==0.4.13
+Whoosh==2.7.4
+xmltodict==0.12.0
+peewee==3.9.3
