@@ -53,4 +53,5 @@ setup(
     ],
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
+    keywords=["jira", "full-text-search", "grep", "dump", "sync"]
 )
