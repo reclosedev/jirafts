@@ -36,6 +36,7 @@ def parse_args():
     sync.add_argument("-p", "--project", help="Projects to sync. All by default", default=[], nargs="*")
     sync.add_argument("-o", "--optimize", help="Optimize index", default=False, action="store_true")
     sync.add_argument("-c", "--concurrency", help="Number of parallel downloads", default=8, type=int)
+    sync.add_argument("-l", "--language", help="Language for text: en, ru, es, it, etc", default="en")
 
     search.add_argument("-l", "--limit", help="Limit results", default=10, type=int)
     search.add_argument(
@@ -68,7 +69,9 @@ def main():
                 auth = _get_token_from_file(auth)
             auth = tuple(auth.split(":", 1))
         downloader = JiraDownloader(url=args.url, auth=auth, concurrency=args.concurrency)
-        searcher.update_db(downloader, projects=args.project, all_issues=args.all, optimize=args.optimize)
+        searcher.update_db(
+            downloader, projects=args.project, all_issues=args.all, optimize=args.optimize, language=args.language,
+        )
     else:
         short = args.short
         comments = not short and args.comments

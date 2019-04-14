@@ -23,9 +23,9 @@ class JiraSearcher:
         self._html_to_text.ignore_links = True
         self._html_to_text.ignore_images = True
 
-    def update_db(self, downloader: JiraDownloader, projects=None, all_issues=False, optimize=False):
+    def update_db(self, downloader: JiraDownloader, projects=None, all_issues=False, optimize=False, language="en"):
         self.report("Updating issues info in {}...".format(projects or "All projects"))
-        ix = self._get_index()
+        ix = self._get_index(language=language)
         writer = ix.writer()
         with db.atomic():
             count = 0
@@ -63,8 +63,8 @@ class JiraSearcher:
     def report(self, *args, **kwargs):
         print(*args, **kwargs)
 
-    def _get_schema(self):
-        lang_analyzer = LanguageAnalyzer("ru")
+    def _get_schema(self, language):
+        lang_analyzer = LanguageAnalyzer(language)
         return Schema(
             key=ID(stored=True, unique=True),
             assignee=ID(stored=True),
@@ -77,12 +77,12 @@ class JiraSearcher:
             components=KEYWORD(stored=True, lowercase=True),
         )
 
-    def _get_index(self):
+    def _get_index(self, language=None):
         storage = FileStorage(self._index_dir).create()
         if storage.index_exists():
             ix = storage.open_index()
         else:
-            ix = storage.create_index(self._get_schema())
+            ix = storage.create_index(self._get_schema(language))
         return ix
 
     def search(self, query_str, limit=30, html=True, description=True, comments=False, search_comments=True,
